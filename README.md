@@ -27,6 +27,17 @@ Defaults: `max_prime` 10000, `seconds` 10, `threads` 1.
 ./sysbench_prime 10000 10 $(nproc)
 ```
 
+## GPU (OpenCL)
+
+`sysbench_prime_gpu.c` runs the same event on a GPU: each work-item counts the primes below `max_prime` once, and batches are launched until the time is up. Needs an OpenCL driver (NVIDIA, AMD and Intel drivers include one) and the Khronos headers in `include/CL`.
+
+```
+gcc -O2 -Iinclude -o sysbench_prime_gpu.exe sysbench_prime_gpu.c "C:/Windows/System32/OpenCL.dll"
+./sysbench_prime_gpu.exe [max_prime] [seconds] [work_items]
+```
+
+Default `work_items` is 8192. Around 20480 gave the best result on a GTX 1080. `max_prime` must be below 2^32. GPU scores are not comparable with `sysbench cpu`.
+
 ## Compare with sysbench
 
 ```
